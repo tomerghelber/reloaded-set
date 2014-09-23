@@ -6,6 +6,6 @@ python:
 install:
 - pip install coveralls
 # command to run tests
-script: nosetests --with-coverage --cover-package=singleton_factory
+script: nosetests --with-coverage --cover-package=reloaded_set
 after_success:
 - coveralls
