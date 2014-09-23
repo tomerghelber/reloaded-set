@@ -1,4 +1,4 @@
-reloaded_frozenset
+reloaded-frozenset
 ==================
 
 A frozenset that can reload his data
