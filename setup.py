@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-# Dynamically calculate the version based on pymal.VERSION.
+# Dynamically calculate the version
 version = __import__('reloaded_set').__version__
 
 
@@ -9,13 +9,13 @@ setup(
     name='reloaded-set',
     packages=find_packages(exclude=['tests*']),
     version=version,
-    description='A python api for the website MyAnimeList (or MAL).',
-    author='pymal-developers',
+    description='A frozenset that can reload his data.',
+    author='',
     license="BSD",
-    url='https://bitbucket.org/pymal-developers/pymal/',
+    url='https://github.com/tomerghelber/reloaded-frozenset',
     keywords=['reloaded', 'set', ],
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
