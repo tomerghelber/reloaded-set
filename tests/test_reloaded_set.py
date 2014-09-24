@@ -49,6 +49,95 @@ class ReloadedSetOtherNamingTestCase(unittest.TestCase):
         getattr(self.reloaded_set, NOT_DEFAULT_FUNCTION_NAME)()
         self.assertTrue(getattr(self.reloaded_set, NOT_DEFAULT_FLAG_NAME))
 
+VALUES = [1, 2, 3, 4, 5, ]
+
+
+class CReloadedSet(ReloadedSet):
+    def _reload(self):
+        pass
+
+    @property
+    def _values(self):
+        return VALUES
+
+
+class ReloadedSetFunctionsTestCase(unittest.TestCase):
+    @classmethod
+    def setUp(cls):
+        cls.reloaded_set = CReloadedSet()
+
+    def test_in(self):
+        return VALUES[0] in self.reloaded_set
+
+    def test_not_in(self):
+        return sum(VALUES) not in self.reloaded_set
+
+    def test___iter__(self):
+        self.assertListEqual(VALUES, list(self.reloaded_set))
+
+    def test_len(self):
+        self.assertEqual(len(VALUES), len(self.reloaded_set))
+
+    def test_issubset(self):
+        self.assertTrue(self.reloaded_set.issubset(VALUES))
+
+    def test_not_issubset(self):
+        self.assertFalse(self.reloaded_set.issubset(VALUES[:-1]))
+
+    def test_issuperset(self):
+        self.assertTrue(self.reloaded_set.issuperset(VALUES))
+
+    def test_not_issuperset(self):
+        self.assertFalse(self.reloaded_set.issuperset(VALUES + [sum(VALUES)]))
+
+    def test_union(self):
+        unioned1 = [sum(VALUES)]
+        unioned2 = [sum(VALUES) * 2]
+        wanted = sorted(VALUES + unioned1 + unioned2)
+        result = sorted(self.reloaded_set.union(unioned1, unioned2))
+        self.assertListEqual(wanted, result)
+
+    def test___or__(self):
+        unioned1 = [sum(VALUES)]
+        unioned2 = [sum(VALUES) * 2]
+        wanted = sorted(VALUES + unioned1 + unioned2)
+        result = sorted(self.reloaded_set | set(unioned1) | set(unioned2))
+        self.assertListEqual(wanted, result)
+
+    def test_intersection(self):
+        wanted = VALUES[0]
+        result = sorted(self.reloaded_set.intersection([wanted]))
+        self.assertListEqual([wanted], result)
+
+    def test___and__(self):
+        wanted = [VALUES[0]]
+        result = sorted(self.reloaded_set & set([VALUES[0]]))
+        self.assertListEqual(wanted, result)
+
+    def test_difference(self):
+        other = [VALUES[0]]
+        wanted = VALUES[1:]
+        result = sorted(self.reloaded_set.difference(other))
+        self.assertListEqual(wanted, result)
+
+    def test___sub__(self):
+        other = set([VALUES[0]])
+        wanted = VALUES[1:]
+        result = sorted(self.reloaded_set - other)
+        self.assertListEqual(wanted, result)
+
+    def test_symmetric_difference(self):
+        wanted = [VALUES[0], sum(VALUES)]
+        other = VALUES[1:] + [sum(VALUES)]
+        result = sorted(self.reloaded_set.symmetric_difference(other))
+        self.assertListEqual(wanted, result)
+
+    def test___xor__(self):
+        wanted = [VALUES[0], sum(VALUES)]
+        other = VALUES[1:] + [sum(VALUES)]
+        result = sorted(self.reloaded_set ^other)
+        self.assertListEqual(wanted, result)
+
 
 def main():
     unittest.main()
