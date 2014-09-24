@@ -1,6 +1,6 @@
 import collections
 
-__version__ = '0.1'
+__version__ = '0.2'
 
 DEFAULT_FLAG_NAME = '_is_loaded'
 DEFAULT_FUNCTION_NAME = 'reload'
