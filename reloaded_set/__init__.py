@@ -1,6 +1,6 @@
 import collections
 
-__version__ = '0.2'
+__version__ = '0.3'
 
 DEFAULT_FLAG_NAME = '_is_loaded'
 DEFAULT_FUNCTION_NAME = 'reload'
@@ -28,7 +28,7 @@ class ReloadedSet(collections.Set):
 
     @property
     def _values(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def __contains__(self, item):
         return item in self._values

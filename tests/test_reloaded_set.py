@@ -25,6 +25,10 @@ class ReloadedSetTestCase(unittest.TestCase):
         getattr(self.reloaded_set, DEFAULT_FUNCTION_NAME)()
         self.assertTrue(getattr(self.reloaded_set, DEFAULT_FLAG_NAME))
 
+    def test__values_not_implemented(self):
+        with self.assertRaises(NotImplementedError):
+            self.reloaded_set._values
+
 
 class ReloadedSetOtherNamingTestCase(unittest.TestCase):
     @classmethod
