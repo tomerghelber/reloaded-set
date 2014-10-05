@@ -6,7 +6,7 @@ python:
 - "pypy3"
 # command to install dependencies
 install:
-- pip -r test_requirements.txt
+- pip install -r test_requirements.txt
 # command to run tests
 script: nosetests --with-coverage --cover-package=reloaded_set
 after_success:
