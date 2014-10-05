@@ -8,11 +8,28 @@ NOT_DEFAULT_FLAG_NAME = 'bla'
 NOT_DEFAULT_FUNCTION_NAME = 'bla_flag'
 
 
+class InheritanceReloadedSet(ReloadedSet):
+    def _reload(self):
+        pass
+
+    @property
+    def _values(self):
+        return list()
+
+
+class InheritanceReloadedSetB(ReloadedSet):
+    def _bla(self):
+        pass
+
+    @property
+    def _values(self):
+        return list()
+
+
 class ReloadedSetTestCase(unittest.TestCase):
-    @classmethod
-    def setUp(cls):
-        cls.reloaded_set = ReloadedSet()
-        cls.reloaded_set._reload = mock.MagicMock()
+    def setUp(self):
+        self.reloaded_set = InheritanceReloadedSet()
+        self.reloaded_set._reload = mock.Mock()
 
     def test_inner_reload_is_called(self):
         getattr(self.reloaded_set, DEFAULT_FUNCTION_NAME)()
@@ -25,16 +42,11 @@ class ReloadedSetTestCase(unittest.TestCase):
         getattr(self.reloaded_set, DEFAULT_FUNCTION_NAME)()
         self.assertTrue(getattr(self.reloaded_set, DEFAULT_FLAG_NAME))
 
-    def test__values_not_implemented(self):
-        with self.assertRaises(NotImplementedError):
-            self.reloaded_set._values
-
 
 class ReloadedSetOtherNamingTestCase(unittest.TestCase):
-    @classmethod
-    def setUp(cls):
-        cls.reloaded_set = ReloadedSet(flag_name=NOT_DEFAULT_FLAG_NAME, function_name=NOT_DEFAULT_FUNCTION_NAME)
-        setattr(cls.reloaded_set, '_' + NOT_DEFAULT_FUNCTION_NAME, mock.MagicMock())
+    def setUp(self):
+        self.reloaded_set = InheritanceReloadedSetB(flag_name=NOT_DEFAULT_FLAG_NAME, function_name=NOT_DEFAULT_FUNCTION_NAME)
+        setattr(self.reloaded_set, '_' + NOT_DEFAULT_FUNCTION_NAME, mock.Mock())
 
     def test_check_flag_exists(self):
         getattr(self.reloaded_set, NOT_DEFAULT_FLAG_NAME)
@@ -66,9 +78,8 @@ class CReloadedSet(ReloadedSet):
 
 
 class ReloadedSetFunctionsTestCase(unittest.TestCase):
-    @classmethod
-    def setUp(cls):
-        cls.reloaded_set = CReloadedSet()
+    def setUp(self):
+        self.reloaded_set = CReloadedSet()
 
     def test_in(self):
         return VALUES[0] in self.reloaded_set

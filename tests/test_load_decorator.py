@@ -13,12 +13,15 @@ class AReloadedSet(ReloadedSet):
     def tested_function(self):
         pass
 
+    @property
+    def _values(self):
+        return list()
+
 
 class ReloadedSetDecoratorTestCase(unittest.TestCase):
-    @classmethod
-    def setUp(cls):
-        cls.reloaded_set = AReloadedSet()
-        cls.reloaded_set._reload = mock.MagicMock()
+    def setUp(self):
+        self.reloaded_set = AReloadedSet()
+        self.reloaded_set._reload = mock.Mock()
 
     def test_load_decorator_working(self):
         self.reloaded_set.tested_function()
@@ -33,12 +36,14 @@ class BReloadedSet(ReloadedSet):
     def tested_function(self):
         pass
 
+    @property
+    def _values(self):
+        return list()
 
 class ReloadedSetDecoratorOtherNamingTestCase(unittest.TestCase):
-    @classmethod
-    def setUp(cls):
-        cls.reloaded_set = BReloadedSet()
-        setattr(cls.reloaded_set, '_' + NOT_DEFAULT_FUNCTION_NAME, mock.MagicMock())
+    def setUp(self):
+        self.reloaded_set = BReloadedSet()
+        setattr(self.reloaded_set, '_' + NOT_DEFAULT_FUNCTION_NAME, mock.Mock())
 
     def test_load_decorator_working(self):
         self.reloaded_set.tested_function()
