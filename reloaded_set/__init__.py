@@ -7,7 +7,7 @@ DEFAULT_FLAG_NAME = '_is_loaded'
 DEFAULT_FUNCTION_NAME = 'reload'
 
 
-class ReloadedSet(collections.Set, abc.ABC):
+class ReloadedSet(collections.Set, metaclass=abc.ABCMeta):
     """
     A reloaded set - like frozenset but can fetch new data in the function reload.
     To inheritance you need to make:
