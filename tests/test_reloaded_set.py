@@ -1,5 +1,5 @@
 import unittest
-from unittest import mock
+import mock
 
 from reloaded_set import ReloadedSet, DEFAULT_FUNCTION_NAME, DEFAULT_FLAG_NAME
 
