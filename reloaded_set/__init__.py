@@ -1,7 +1,7 @@
 import collections
 import abc
 
-__version__ = '0.3'
+__version__ = '0.4'
 
 DEFAULT_FLAG_NAME = '_is_loaded'
 DEFAULT_FUNCTION_NAME = 'reload'
