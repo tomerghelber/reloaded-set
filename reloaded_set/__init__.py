@@ -1,4 +1,5 @@
 import collections
+import abc
 
 __version__ = '0.3'
 
@@ -6,7 +7,7 @@ DEFAULT_FLAG_NAME = '_is_loaded'
 DEFAULT_FUNCTION_NAME = 'reload'
 
 
-class ReloadedSet(collections.Set):
+class ReloadedSet(collections.Set, metaclass=abc.ABCMeta):
     """
     A reloaded set - like frozenset but can fetch new data in the function reload.
     To inheritance you need to make:
@@ -21,14 +22,16 @@ class ReloadedSet(collections.Set):
 
         inner_function_name = '_' + function_name
 
+        @abc.abstractmethod
         def function():
             getattr(self, inner_function_name)()
             setattr(self, flag_name, True)
         setattr(self, function_name, function)
 
     @property
+    @abc.abstractmethod
     def _values(self):
-        raise NotImplementedError()
+        pass
 
     def __contains__(self, item):
         return item in self._values
